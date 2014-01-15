@@ -11,6 +11,9 @@
  *      http://www.eternallyconfuzzled.com/arts/jsw_art_rand.aspx
  *  (3) incredible lego slot machine
  *      http://www.youtube.com/watch?v=ET1DoB5sKpo
+ *
+ *  compiled:
+ *      gcc -Wall -std=c11 -pedantic -ansi -m64 -o slot slot.c
  */
 
 #include <stdio.h>
