@@ -1,4 +1,5 @@
 Slot Machine Statistical Analyzer
+==============
 
 C code that models a *real world* slot machine's payout statistics (coin-in/coin-out)
 

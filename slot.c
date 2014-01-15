@@ -203,7 +203,7 @@ char *fmt_currency(unsigned long n)
     char* buf = malloc (255 * sizeof (char));
 
     sprintf(buf, "$ ");
-    sprintf(&buf[2], "%d", n);
+    sprintf(&buf[2], "%lu", n);
     pos = strlen(buf);
 
     for (;pos > 5; pos -= 3)
@@ -217,9 +217,11 @@ char *fmt_currency(unsigned long n)
 
 void display_results()
 {
-    printf("\n\nresults: (# wins/payout)\n\n");
-
     int i;
+    char* ptotal_pays;
+    char* phandle_pulls;
+
+    printf("\n\nresults: (# wins/payout)\n\n");
     for (i=0; i<num_paylines; i++)
     {
         char* payout = fmt_currency(paylines[i].pay_ctr);
@@ -231,8 +233,8 @@ void display_results()
         free(payout);
     }
 
-    char* ptotal_pays = fmt_currency(total_pays);
-    char* phandle_pulls = fmt_currency(handle_pulls);
+    ptotal_pays = fmt_currency(total_pays);
+    phandle_pulls = fmt_currency(handle_pulls);
 
     printf(
         "\n"
