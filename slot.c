@@ -1,24 +1,31 @@
 /*
- *  slot machine analyzer
+ *  slot machine analyser
  *
  *  1 coin, 1 play
  *
- *  copyright (c) 2010, 2011
+ *  copyright (c) 2010, 2011, 2014
  *  georgeacraig@gmail.com. all rights reserved.
  *
  *  (1) thanks mike fagan
+ *
  *  (2) seed() cp'ed from julienne walker
  *      http://www.eternallyconfuzzled.com/arts/jsw_art_rand.aspx
  *  (3) incredible lego slot machine
  *      http://www.youtube.com/watch?v=ET1DoB5sKpo
+ *
+ *  compiled:
+ *      gcc -Wall -std=c11 -pedantic -ansi -m64 -o slot slot.c
+ *
+ *	verified:
+ *		cppcheck, cpplint
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
-#include <time.h>
 #include <locale.h>
+#include <time.h>
 
 #define REEL_STOPS       64
 #define NUM_REELS        3
@@ -96,36 +103,36 @@ struct slot_machine sm =
     /* reel strip values, different per game, machine, etc. */
     {
         /* reel 1, red seven = 7 */
-        1,1,1,1,2,2,2,2,
-        1,1,3,3,3,3,1,5,
-        5,5,5,1,1,1,1,7,
-        1,1,1,1,5,5,5,5,
-        1,3,3,3,3,1,2,2,
-        2,2,1,3,3,3,3,1,
-        5,5,5,5,1,1,6,6,
-        1,1,1,1,4,4,4,4
+        1, 1, 1, 1, 2, 2, 2, 2,
+        1, 1, 3, 3, 3, 3, 1, 5,
+        5, 5, 5, 1, 1, 1, 1, 7,
+        1, 1, 1, 1, 5, 5, 5, 5,
+        1, 3, 3, 3, 3, 1, 2, 2,
+        2, 2, 1, 3, 3, 3, 3, 1,
+        5, 5, 5, 5, 1, 1, 6, 6,
+        1, 1, 1, 1, 4, 4, 4, 4
     },
     {
         /* reel 2, white seven = 6 */
-        1,1,1,1,2,2,2,1,
-        1,1,4,4,4,4,1,5,
-        5,5,5,1,1,1,1,6,
-        1,1,1,1,5,5,5,5,
-        1,4,4,4,4,1,1,2,
-        2,1,1,4,4,4,4,1,
-        5,5,5,5,1,1,7,7,
-        1,1,1,1,3,3,3,3
+        1, 1, 1, 1, 2, 2, 2, 1,
+        1, 1, 4, 4, 4, 4, 1, 5,
+        5, 5, 5, 1, 1, 1, 1, 6,
+        1, 1, 1, 1, 5, 5, 5, 5,
+        1, 4, 4, 4, 4, 1, 1, 2,
+        2, 1, 1, 4, 4, 4, 4, 1,
+        5, 5, 5, 5, 1, 1, 7, 7,
+        1, 1, 1, 1, 3, 3, 3, 3
     },
     {
         /* reel 3, blue seven = 2 */
-        1,1,1,1,6,6,6,6,
-        1,1,4,4,4,4,1,1,
-        3,3,1,1,1,1,2,1,
-        1,1,1,3,3,3,3,1,
-        1,4,4,4,4,1,1,6,
-        6,6,6,1,1,4,4,4,
-        1,1,3,3,3,1,1,7,
-        1,1,1,1,5,5,5,5
+        1, 1, 1, 1, 6, 6, 6, 6,
+        1, 1, 4, 4, 4, 4, 1, 1,
+        3, 3, 1, 1, 1, 1, 2, 1,
+        1, 1, 1, 3, 3, 3, 3, 1,
+        1, 4, 4, 4, 4, 1, 1, 6,
+        6, 6, 6, 1, 1, 4, 4, 4,
+        1, 1, 3, 3, 3, 1, 1, 7,
+        1, 1, 1, 1, 5, 5, 5, 5
     }
 }};
 
@@ -143,7 +150,7 @@ unsigned seed()
     unsigned char *p = (unsigned char *)&now;
     unsigned seed = 0;
     size_t i;
-    for (i=0; i<sizeof now; i++)
+    for (i = 0; i < sizeof now; i++)
         seed = seed * (UCHAR_MAX + 2U) + p[i];
 
     return seed;
@@ -151,9 +158,9 @@ unsigned seed()
 
 void usage()
 {
-    fprintf( stderr, "\n"
-        "Slot Machine Analyzer\n"
-        "Modeled after a real IGT Red, White & Blue\n"
+    fprintf(stderr, "\n"
+        "Slot Machine Analyser\n"
+        "Modelled after a real IGT Red, White & Blue\n"
         "georgeacraig@gmail.com\n\n");
 }
 
@@ -161,14 +168,14 @@ void print_reel(int r)
 {
     int i;
     printf("\nreel %d: ", r+1);
-    for (i=0; i<REEL_STOPS; i++)
-        printf("%d ", p->reel[r][i] );
+    for (i = 0; i < REEL_STOPS; i++)
+        printf("%d ", p->reel[r][i]);
 }
 
 void print_reels()
 {
     int i;
-    for (i=0; i<NUM_REELS; i++)
+    for (i = 0; i < NUM_REELS; i++)
         print_reel(i);
 }
 
@@ -186,7 +193,7 @@ void calc_results()
     int i;
     float h = (float) handle_pulls;
 
-    for (i=0; i<num_paylines; i++)
+    for (i = 0; i < num_paylines; i++)
     {
         total_hits += paylines[i].hit_ctr;
         total_pays += paylines[i].pay_ctr;
@@ -203,12 +210,12 @@ char *fmt_currency(unsigned long n)
     char* buf = malloc (255 * sizeof (char));
 
     sprintf(buf, "$ ");
-    sprintf(&buf[2], "%d", n);
+    sprintf(&buf[2], "%lu", n);
     pos = strlen(buf);
 
-    for (;pos > 5; pos -= 3)
+    for (; pos > 5; pos -= 3)
     {
-        for (ctr = strlen(buf) + 1; ctr > pos - 4; buf[ctr+1]=buf[ctr--]);
+        for (ctr = strlen(buf) + 1; ctr > pos - 4; buf[ctr+1]=buf[ctr--]) { }
         buf[++ctr] = ',';
     }
 
@@ -217,10 +224,12 @@ char *fmt_currency(unsigned long n)
 
 void display_results()
 {
-    printf("\n\nresults: (# wins/payout)\n\n");
-
     int i;
-    for (i=0; i<num_paylines; i++)
+    char* ptotal_pays;
+    char* phandle_pulls;
+
+    printf("\n\nresults: (# wins/payout)\n\n");
+    for (i = 0; i < num_paylines; i++)
     {
         char* payout = fmt_currency(paylines[i].pay_ctr);
         printf("%4d - %-28s = %-6d / %s\n",
@@ -231,8 +240,8 @@ void display_results()
         free(payout);
     }
 
-    char* ptotal_pays = fmt_currency(total_pays);
-    char* phandle_pulls = fmt_currency(handle_pulls);
+    ptotal_pays = fmt_currency(total_pays);
+    phandle_pulls = fmt_currency(handle_pulls);
 
     printf(
         "\n"
@@ -242,7 +251,7 @@ void display_results()
         "%17s = %s\n"
         "%17s = %s\n"
         "%17s = %2.1f%%\n"
-        "%17s = %lu/%lu\n",
+        "%17s = %ld/%lu\n",
         "payback percent",   payback_per,
         "hold percent",      hold_per,
         "played (coin-in)",  phandle_pulls,
@@ -382,7 +391,7 @@ void check_spin()
     /* iterate through paylines checking current
        symbols and see if we've won */
     int i;
-    for (i=0; i<num_paylines; i++)
+    for (i = 0; i < num_paylines; i++)
         if ( paylines[i].pcheck_spin() )
         {
             /* if its a hit, tally and drop out for next spin */
@@ -393,7 +402,7 @@ void check_spin()
 
 void run()
 {
-    int i,j;
+    int i, j;
     srand(seed());
 
     /*
@@ -405,11 +414,11 @@ void run()
      * -ridonkulous... play dice
      */
 
-    for (i=0; i<handle_pulls; i++)
+    for (i = 0; i < handle_pulls; i++)
     {
         /* spinning! */
 
-        for (j=0; j<NUM_REELS; j++)
+        for (j = 0; j < NUM_REELS; j++)
         {
             /* randomly select a stop */
             int r = ((rand() % REEL_STOPS) + 1);
@@ -433,7 +442,7 @@ void run()
     display_results();
 }
 
-int main(int ac, char **av)
+int main()
 {
     usage();
     run();
