@@ -144,7 +144,8 @@ const short num_paylines = sizeof(paylines)/sizeof(struct payline);
 const long handle_pulls = 10000000;
 const int tick = 500000;
 
-unsigned seed()
+unsigned 
+seed()
 {
     time_t now = time(0);
     unsigned char *p = (unsigned char *)&now;
@@ -156,7 +157,8 @@ unsigned seed()
     return seed;
 }
 
-void usage()
+void 
+usage()
 {
     fprintf(stderr, "\n"
         "Slot Machine Analyser\n"
@@ -164,7 +166,8 @@ void usage()
         "georgeacraig@gmail.com\n\n");
 }
 
-void print_reel(int r)
+void 
+print_reel(int r)
 {
     int i;
     printf("\nreel %d: ", r+1);
@@ -172,14 +175,16 @@ void print_reel(int r)
         printf("%d ", p->reel[r][i]);
 }
 
-void print_reels()
+void 
+print_reels()
 {
     int i;
     for (i = 0; i < NUM_REELS; i++)
         print_reel(i);
 }
 
-void record_win(int n)
+void 
+record_win(int n)
 {
     /* hit counter, for calculating percentages */
     paylines[n].hit_ctr++;
@@ -188,7 +193,8 @@ void record_win(int n)
     paylines[n].pay_ctr += paylines[n].award;
 }
 
-void calc_results()
+void 
+calc_results()
 {
     int i;
     float h = (float) handle_pulls;
@@ -204,7 +210,8 @@ void calc_results()
     hit_per = (total_hits / h) * 100.0F;
 }
 
-char *fmt_currency(unsigned long n)
+char *
+fmt_currency(unsigned long n)
 {
     int pos, ctr;
     char* buf = malloc (255 * sizeof (char));
@@ -222,7 +229,8 @@ char *fmt_currency(unsigned long n)
     return buf;
 }
 
-void display_results()
+void 
+display_results()
 {
     int i;
     char* ptotal_pays;
@@ -263,41 +271,48 @@ void display_results()
     free(phandle_pulls);
 }
 
-int compare_symbols(int x)
+int 
+compare_symbols(int x)
 {
     return ((p->pos[0] == x) &
             (p->pos[1] == x) &
             (p->pos[2] == x));
 }
 
-int compare_colors(int x, int y)
+int 
+compare_colors(int x, int y)
 {
     return (((p->pos[0] == x) | (p->pos[0] == y)) &
             ((p->pos[1] == x) | (p->pos[1] == y)) &
             ((p->pos[2] == x) | (p->pos[2] == y)));
 }
 
-int any_three_spaces()
+int 
+any_three_spaces()
 {
     return compare_symbols(SYM_SPACE);
 }
 
-int any_three_blue()
+int 
+any_three_blue()
 {
     return compare_colors(SYM_BLUE_BAR, SYM_BLUE_SEVEN);
 }
 
-int any_three_white()
+int 
+any_three_white()
 {
     return compare_colors(SYM_WHITE_BAR, SYM_WHITE_SEVEN);
 }
 
-int any_three_red()
+int 
+any_three_red()
 {
     return compare_colors(SYM_RED_BAR, SYM_RED_SEVEN);
 }
 
-int any_three_bars()
+int 
+any_three_bars()
 {
     return ((
         (p->pos[0] == SYM_WHITE_BAR) |
@@ -313,17 +328,20 @@ int any_three_bars()
         (p->pos[2] == SYM_RED_BAR)));
 }
 
-int all_three_red_bars()
+int 
+all_three_red_bars()
 {
     return compare_symbols(SYM_RED_BAR);
 }
 
-int all_three_white_bars()
+int 
+all_three_white_bars()
 {
     return compare_symbols(SYM_WHITE_BAR);
 }
 
-int all_three_blue_bars()
+int 
+all_three_blue_bars()
 {
     return compare_symbols(SYM_BLUE_BAR);
 }
@@ -333,24 +351,28 @@ int all_three_blue_sevens()
     return compare_symbols(SYM_BLUE_SEVEN);
 }
 
-int all_three_white_sevens()
+int 
+all_three_white_sevens()
 {
     return compare_symbols(SYM_WHITE_SEVEN);
 }
 
-int all_three_red_sevens()
+int 
+all_three_red_sevens()
 {
     return compare_symbols(SYM_RED_SEVEN);
 }
 
-int red_white_blue_bars()
+int 
+red_white_blue_bars()
 {
     return ((p->pos[0] == SYM_RED_BAR) &
             (p->pos[1] == SYM_WHITE_BAR) &
             (p->pos[2] == SYM_BLUE_BAR));
 }
 
-int any_redwhiteblue()
+int 
+any_redwhiteblue()
 {
     return ((
             (p->pos[0] == SYM_RED_BAR) |
@@ -363,7 +385,8 @@ int any_redwhiteblue()
             (p->pos[2] == SYM_BLUE_SEVEN)));
 }
 
-int any_three_sevens()
+int 
+any_three_sevens()
 {
     return ((
             (p->pos[0] == SYM_WHITE_SEVEN) |
@@ -379,14 +402,16 @@ int any_three_sevens()
             (p->pos[2] == SYM_RED_SEVEN)));
 }
 
-int red_white_blue_sevens()
+int 
+red_white_blue_sevens()
 {
     return ((p->pos[0] == SYM_RED_SEVEN) &
             (p->pos[1] == SYM_WHITE_SEVEN) &
             (p->pos[2] == SYM_BLUE_SEVEN));
 }
 
-void check_spin()
+void 
+check_spin()
 {
     /* iterate through paylines checking current
        symbols and see if we've won */
@@ -400,7 +425,8 @@ void check_spin()
         }
 }
 
-void run()
+void 
+run()
 {
     int i, j;
     srand(seed());
@@ -442,9 +468,9 @@ void run()
     display_results();
 }
 
-int main()
+int 
+main()
 {
     usage();
     run();
-    return(0);
 }
